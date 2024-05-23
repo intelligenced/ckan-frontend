@@ -11,6 +11,7 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
+      # - "8000:80"  # Temporarily expose Laravel directly to see if it is responsive
       - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'  # Expose only the Vite development server port
     environment:
       WWWUSER: '${WWWUSER}'
@@ -22,7 +23,6 @@ services:
       - '.:/var/www/html'
     networks:
       - sail
-      - ckannet
       - traefik-net
     depends_on:
       - mysql
@@ -48,7 +48,6 @@ services:
       - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
       - sail
-      - ckannet
     healthcheck:
       test:
         - CMD
@@ -61,8 +60,6 @@ services:
 networks:
   sail:
     driver: bridge
-  ckannet:
-    external: true
   traefik-net:
     external: true
 
