@@ -16,6 +16,28 @@ class CkanApiService {
         $this->ckanBasePath = "http://ckan-docker-ckan-1:5000/api/3/action/";
     }
 
+    public function getCkanRequest($endpoint, $body) {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => $this->ckanApiToken,
+                'Content-Type' => $this->ckanContentType,
+            ])->get($this->ckanBasePath . $endpoint, $body);
+        
+            if ($response->successful()) {
+                return $response->json();
+            } else {
+                $error = $response->body();
+                throw new Exception("Error Processing Request: " . $error);
+            }
+        } catch (RequestException $e) {
+            $error = $e->getResponse()->body();
+            return response()->json(['error' => 'Request failed, please try again.'], 500);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
     public function postCkanRequest($endpoint, $body) {
         try {
             $response = Http::withHeaders([
@@ -35,6 +57,13 @@ class CkanApiService {
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function getGroups(){
+        $body = [
+            'all_fields' => true
+        ];
+        return $this->getCkanRequest('group_list', $body);
     }
 
     public function createGroup($name, $title, $description, $imageUrl = null) {
