@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FrontpageController;
+use App\Http\Controllers\SeedController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [FrontpageController::class, 'index'])->name('frontpage.index');
+
+
+Route::get('/seedgroup',[SeedController::class, 'seedGroup'])->name('seed.group');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

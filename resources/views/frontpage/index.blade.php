@@ -27,6 +27,9 @@
             <a href="#" class="text-blue-500 hover:underline">View Catalogue</a>
         </div>
 
+
+        <iframe title="Data viewer" width="700" height="400" src="http://ckan.localhost/dataset/islands/resource/ef07c952-8c74-464f-bf7d-77de3e50bcfb/view/ec5e8854-4320-460f-a2d2-1162bc856cd3" frameBorder="0"></iframe>
+
         <!-- Add more catalogue cards as needed -->
     </div>
 </x-guest-layout>
