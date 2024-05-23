@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [FrontpageController::class, 'index'])->name('frontpage.index');
-
+Route::get('/category', [FrontpageController::class, 'category'])->name('frontpage.category');
+Route::get('/data/{id}', [FrontpageController::class, 'data'])->name('frontpage.data');
 
 Route::get('/seedgroup',[SeedController::class, 'seedGroup'])->name('seed.group');
 

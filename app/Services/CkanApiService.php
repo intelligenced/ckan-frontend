@@ -16,6 +16,26 @@ class CkanApiService {
         $this->ckanBasePath = "http://ckan-docker-ckan-1:5000/api/3/action/";
     }
 
+
+    public function search($params)
+    {
+        $query = http_build_query($params);
+
+        $response = Http::withHeaders([
+            'Authorization' => $this->ckanApiToken,
+            'Content-Type' => 'application/json'
+        ])->get($this->ckanBasePath . 'package_search?' . $query);
+
+        if ($response->successful()) {
+            return $response->json();
+        } else {
+            return [
+                'error' => true,
+                'message' => $response->body()
+            ];
+        }
+    }
+
     public function getCkanRequest($endpoint, $body) {
         try {
             $response = Http::withHeaders([
