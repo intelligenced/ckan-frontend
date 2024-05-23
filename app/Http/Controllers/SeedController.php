@@ -14,13 +14,23 @@ class SeedController extends Controller
     public function seedGroup(){
 
         $ckanService = new CkanApiService();
-        $result = $ckanService->createGroup(
-            'example-name', 
-            'Example Title', 
-            'This is a description.',
-            'http://example.com/image.jpg'
-        );
-        
+
+        $filePath = database_path('seeders/groups.json');
+        $json = file_get_contents($filePath);
+        $groups = json_decode($json, true)['categories'];
+
+        $results = [];
+
+        foreach ($groups as $group) {
+            $result = $ckanService->createGroup(
+                $group['name'],
+                $group['title'],
+                $group['description'],
+                isset($group['image_url']) ? $group['image_url'] : null
+            );
+            $results[] = $result;
+        }
+
         return response()->json($result);
     }
 }
