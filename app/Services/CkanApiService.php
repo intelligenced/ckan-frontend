@@ -37,7 +37,7 @@ class CkanApiService {
         }
     }
 
-    public function createGroup($name, $title, $description, $imageUrl) {
+    public function createGroup($name, $title, $description, $imageUrl = null) {
         $body = [
             'name' => $name,
             'title' => $title,
