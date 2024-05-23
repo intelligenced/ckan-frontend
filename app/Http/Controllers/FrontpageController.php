@@ -62,14 +62,34 @@ class FrontpageController extends Controller
     }
 
 
-    public function data($id){
-
+    public function data($id)
+    {
         $groups = $this->getGroups();
-
-        $dataset = null;
-        return view('frontpage.data',[
+    
+        $response = $this->ckanService->getDataset($id);
+    
+        if (isset($response['error']) && $response['error']) {
+            return response()->json(['error' => true, 'message' => $response['message']], 500);
+        }
+    
+        // Fetch resource views and construct embed URLs
+        foreach ($response['result']['resources'] as &$resource) {
+            $viewsResponse = $this->ckanService->getResourceViews($resource['id']);
+            if (!isset($viewsResponse['error']) || !$viewsResponse['error']) {
+                $resource['views'] = $viewsResponse['result'];
+                if (!empty($resource['views'])) {
+                    // Construct embed URL
+                    $resource['embed_url'] = 'http://ckan.localhost/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'];
+                } else {
+                    $resource['embed_url'] = null;
+                }
+            }
+        }
+    
+        return view('frontpage.data', [
             'groups' => $groups,
-            'dataset' => $dataset
+            'dataset' => $response['result']
         ]);
     }
+    
 }
