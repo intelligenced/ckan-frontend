@@ -42,22 +42,24 @@
 
                 <div class="overflow-x-auto mb-4">
                     <table class="min-w-full bg-white shadow rounded-lg">
-                        <thead>
+                        <thead class="bg-teal-50">
                             <tr>
-                                <th class="border px-4 py-2">Name</th>
-                                <th class="border px-4 py-2">Description</th>
-                                <th class="border px-4 py-2">Format</th>
-                                <th class="border px-4 py-2">Size</th>
-                                <th class="border px-4 py-2">Download</th>
+
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Name</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Description</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Format</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Size</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Download</th>
+
                             </tr>
                         </thead>
                         <tbody>
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $resource['name'] }}</td>
-                                    <td class="border px-4 py-2">{{ $resource['description'] }}</td>
-                                    <td class="border px-4 py-2">{{ $resource['format'] }}</td>
-                                    <td class="border px-4 py-2">{{ $resource['size'] }} bytes</td>
-                                    <td class="border px-4 py-2">
+                                    <td class=" px-4 py-2">{{ $resource['name'] }}</td>
+                                    <td class="px-4 py-2">{{ $resource['description'] }}</td>
+                                    <td class="px-4 py-2">{{ $resource['format'] }}</td>
+                                    <td class="  px-4 py-2">{{ $resource['size'] }} bytes</td>
+                                    <td class=" px-4 py-2">
                                         <a href="{{ $resource['url'] }}" class="text-teal-600 hover:underline">Download</a>
                                     </td>
                                 </tr>
