@@ -21,11 +21,20 @@
                     <ol class="list-reset flex">
                         <li><a href="{{ route('frontpage.index') }}" class="hover:underline">Home</a></li>
                         <li><span class="mx-2">></span></li>
-                        <li class="text-black">{{ request()->group }}</li>
+                        <li class="text-black">
+                            @if($selected_group)
+                            {{ $selected_group['display_name'] }}
+                            @endif
+                        </li>
                     </ol>
                 </nav>
                 <div class="pl-4 border-l-4 border-teal-700">
-                    <h1 class="text-3xl font-semibold mb-4">{{ request()->group }}</h1>
+                    @if($selected_group)
+                    <h1 class="text-3xl font-semibold mb-4">{{  $selected_group['display_name'] }}</h1>
+                    <div class="flex justify-between items-start">
+                        <p class="text-gray-600 font-semibold">{{ $selected_group['description'] }}</p>
+                    </div>
+                    @endif
                 </div>
                 <hr class="my-4">
 

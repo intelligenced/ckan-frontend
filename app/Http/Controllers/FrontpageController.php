@@ -31,6 +31,9 @@ class FrontpageController extends Controller
     {
         $groups = $this->getGroups();
 
+        $selected_group_name = $request->input('group');
+        $selected_group = collect($groups)->firstWhere('name', $selected_group_name);
+
         $params = [];
 
         if ($request->has('group')) {
@@ -56,6 +59,7 @@ class FrontpageController extends Controller
         }
 
         return view('frontpage.category', [
+            'selected_group' => $selected_group,
             'groups' => $groups,
             'datasets' => $result['result']['results']
         ]);
@@ -72,19 +76,6 @@ class FrontpageController extends Controller
             return response()->json(['error' => true, 'message' => $response['message']], 500);
         }
     
-        // Fetch resource views and construct embed URLs
-        foreach ($response['result']['resources'] as &$resource) {
-            $viewsResponse = $this->ckanService->getResourceViews($resource['id']);
-            if (!isset($viewsResponse['error']) || !$viewsResponse['error']) {
-                $resource['views'] = $viewsResponse['result'];
-                if (!empty($resource['views'])) {
-                    // Construct embed URL
-                    $resource['embed_url'] = 'http://ckan.localhost/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'];
-                } else {
-                    $resource['embed_url'] = null;
-                }
-            }
-        }
     
         return view('frontpage.data', [
             'groups' => $groups,
