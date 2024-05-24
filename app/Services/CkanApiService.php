@@ -6,33 +6,45 @@ use Illuminate\Http\Client\RequestException;
 use Exception;
 
 class CkanApiService {
+    protected $ckanApiPath;
     protected $ckanBasePath;
     protected $ckanApiToken;
     protected $ckanContentType = "application/json";
 
     public function __construct() {
         $this->ckanApiToken = env('CKAN_API_TOKEN');
-        $this->ckanBasePath = "http://ckan-docker-ckan-1:5000/api/3/action/";
+        $this->ckanBasePath = env('CKAN_BASE_PATH');
+        $this->ckanApiPath = $this->ckanBasePath."/api/3/action/";
     }
+
+    private function handleErrorResponse($response) {
+        if ($response->failed()) {
+            $error = $response->json();
+            $message = $error['error']['message'] ?? 'An unknown error occurred.';
+            throw new Exception("Error Processing Request: " . $message);
+        }
+        return $response->json();
+    }
+
 
     public function getCkanRequest($endpoint, $params) {
         try {
             $response = Http::withHeaders([
                 'Authorization' => $this->ckanApiToken,
                 'Content-Type' => $this->ckanContentType,
-            ])->get($this->ckanBasePath . $endpoint, $params);
+            ])->get($this->ckanApiPath . $endpoint, $params);
         
-            if ($response->successful()) {
-                return $response->json();
-            } else {
-                $error = $response->body();
-                throw new Exception("Error Processing Request: " . $error);
-            }
+            return $this->handleErrorResponse($response);
         } catch (RequestException $e) {
-            $error = $e->getResponse()->body();
-            return response()->json(['error' => 'Request failed, please try again.'], 500);
+            return [
+                'error' => true,
+                'message' => 'Network error or request timed out: ' . $e->getMessage()
+            ];
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
     }
 
@@ -41,19 +53,19 @@ class CkanApiService {
             $response = Http::withHeaders([
                 'Authorization' => $this->ckanApiToken,
                 'Content-Type' => $this->ckanContentType,
-            ])->post($this->ckanBasePath . $endpoint, $body);
+            ])->post($this->ckanApiPath . $endpoint, $body);
         
-            if ($response->successful()) {
-                return $response->json();
-            } else {
-                $error = $response->body();
-                throw new Exception("Error Processing Request: " . $error);
-            }
+            return $this->handleErrorResponse($response);
         } catch (RequestException $e) {
-            $error = $e->getResponse()->body();
-            return response()->json(['error' => 'Request failed, please try again.'], 500);
+            return [
+                'error' => true,
+                'message' => 'Network error or request timed out: ' . $e->getMessage()
+            ];
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
     }
 
@@ -95,4 +107,34 @@ class CkanApiService {
         ];
         return $this->getCkanRequest('resource_view_list', $params);
     }
+
+    public function getDatasetWithResources($id) {
+        $dataset = $this->getDataset($id);
+    
+        if (isset($dataset['error']) && $dataset['error']) {
+            return $dataset;
+        }
+    
+        if (!isset($dataset['result']['resources'])) {
+            return [
+                'error' => true,
+                'message' => 'No resources found in the dataset.'
+            ];
+        }
+    
+        foreach ($dataset['result']['resources'] as &$resource) {
+            $viewsResponse = $this->getResourceViews($resource['id']);
+            if (!isset($viewsResponse['error'])) {
+                $resource['views'] = $viewsResponse['result'] ?? [];
+                $resource['embed_url'] = !empty($resource['views']) ? $this->ckanBasePath . '/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'] : null;
+            }
+
+            $resource['api_url'] = isset($resource['datastore_active']) && $resource['datastore_active']
+                ? $this->ckanApiPath . "datastore_search?resource_id=" . $resource['id']
+                : null;
+        }
+    
+        return $dataset;
+    }
+    
 }
