@@ -14,31 +14,38 @@ class FrontpageController extends Controller
         $this->ckanService = $ckanService;
     }
 
-    private function getGroups()
-    {
+    private function getGroups(){
         $response = $this->ckanService->getGroups();
+        return $response['result'];
+    }
+
+    private function getTags(){
+        $response  = $this->ckanService->getTags();
+        return $response['result'];
+    }
+    private function getOrganisations(){
+        $response  = $this->ckanService->getOrganisations();
         return $response['result'];
     }
 
     public function index()
     {
         $groups = $this->getGroups();
-
         return view('frontpage.index', ['groups' => $groups]);
     }
 
     public function explore(Request $request)
     {
         $groups = $this->getGroups();
+        $tags = $this->getTags();
+        $organisations = $this->getOrganisations();
     
         $selected_group_name = $request->input('group');
         $selected_group = collect($groups)->firstWhere('name', $selected_group_name);
     
-        // Initialize the query parameters array.
         $params = [];
         $searchTerms = [];
     
-        // Append group, tag, and name filters to the search query if they exist.
         if ($request->has('group')) {
             $searchTerms[] = 'groups:' . $request->input('group');
         }
@@ -48,15 +55,18 @@ class FrontpageController extends Controller
         }
     
         if ($request->has('name')) {
-            $searchTerms[] = 'name:*' . $request->input('name') . '*'; // Adding wildcards to allow partial matches.
+            $searchTerms[] = 'name:*' . $request->input('name') . '*'; 
+        }
+
+        if ($request->has('organization')) {
+            $searchTerms[] = 'organization:' . $request->input('organization'); 
         }
     
-        // If specific search terms are added, join them with AND; otherwise, fetch latest datasets.
         if (!empty($searchTerms)) {
             $params['q'] = implode(' AND ', $searchTerms);
         } else {
             $params['sort'] = 'metadata_modified desc';
-            $params['rows'] = 10; // Fetches the latest 10 datasets by default if no specific search criteria are provided.
+            $params['rows'] = 10; 
         }
     
         $result = $this->ckanService->search($params);
@@ -68,6 +78,8 @@ class FrontpageController extends Controller
         return view('frontpage.explore', [
             'selected_group' => $selected_group,
             'groups' => $groups,
+            'tags' => $tags,
+            'organisations' => $organisations,
             'datasets' => $result['result']['results']
         ]);
     }
@@ -76,6 +88,8 @@ class FrontpageController extends Controller
     public function data($id)
     {
         $groups = $this->getGroups();
+        $tags = $this->getTags();
+        $organisations = $this->getOrganisations();
     
         $response = $this->ckanService->getDatasetWithResources($id);
         
@@ -87,6 +101,8 @@ class FrontpageController extends Controller
     
         return view('frontpage.data', [
             'groups' => $groups,
+            'tags' => $tags,
+            'organisations' => $organisations,
             'dataset' => $response['result']
         ]);
     }

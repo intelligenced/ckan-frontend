@@ -1,7 +1,11 @@
 <x-guest-layout>
     <div class="flex min-h-screen"> 
         <!-- Sidebar -->
-        @include('frontpage.partials.sidebar', ['groups' => $groups, 'selected_group' => $selected_group ?? null])
+        @include('frontpage.partials.sidebar', [
+            'groups' => $groups, 
+            'organisations' => $organisations,
+            'selected_group' => $selected_group ?? null
+        ])
 
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-white flex flex-col"> 
@@ -41,23 +45,31 @@
             <div class=" px-4 py-2 mb-2 bg-gray-50 border-gray-300 border">
     Filters:
     @if(request('group'))
-        <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
-            Group: {{ request('group') }}
-            <a href="{{ request()->fullUrlWithQuery(['group' => null]) }}" class="text-white font-bold ml-1">×</a>
-        </span>
+    <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
+        Group: {{ request('group') }}
+        <a href="{{ request()->fullUrlWithQuery(['group' => null] + request()->except('group')) }}" class="text-white font-bold ml-1">×</a>
+    </span>
     @endif
     @if(request('tag'))
         <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
             Tag: {{ request('tag') }}
-            <a href="{{ request()->fullUrlWithQuery(['tag' => null]) }}" class="text-white font-bold ml-1">×</a>
+            <a href="{{ request()->fullUrlWithQuery(['tag' => null] + request()->except('tag')) }}" class="text-white font-bold ml-1">×</a>
         </span>
     @endif
+    @if(request('organization'))
+        <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
+            Organization: {{ request('organization') }}
+            <a href="{{ request()->fullUrlWithQuery(['organization' => null] + request()->except('organization')) }}" class="text-white font-bold ml-1">×</a>
+        </span>
+    @endif
+
     @if(request('name'))
         <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
             Query: {{ request('name') }}
-            <a href="{{ request()->fullUrlWithQuery(['name' => null]) }}" class="text-white font-bold ml-1">×</a>
+            <a href="{{ request()->fullUrlWithQuery(['name' => null]  + request()->except('name'))  }}" class="text-white font-bold ml-1">×</a>
         </span>
     @endif
+
 </div>
 
  

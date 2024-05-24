@@ -72,18 +72,25 @@ class CkanApiService {
     }
 
 
-    public function search($params)
-    {
+    public function search($params){
         return $this->getCkanRequest('package_search', $params);
     }
 
-
     public function getGroups(){
-        $params = [
-            'all_fields' => true
-        ];
+        $params = ['all_fields' => true];
         return $this->getCkanRequest('group_list', $params);
     }
+
+    public function getTags() {
+        $params = ['all_fields' => true];
+        return $this->getCkanRequest('tag_list', $params);
+    }
+
+    public function getOrganisations() {
+        $params = ['all_fields' => true];
+        return $this->getCkanRequest('organization_list', $params);
+    }
+
 
     public function createGroup($name, $title, $description, $imageUrl = null) {
         $body = [
