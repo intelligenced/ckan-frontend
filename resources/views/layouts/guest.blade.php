@@ -17,7 +17,7 @@
     <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
         <!-- Top Banner -->
-        <header class="bg-teal-700 p-4 shadow-md">
+        <header class="bg-teal-800 p-4 shadow-md">
             <div class="container mx-auto">
                 <h1 class="text-3xl text-white font-bold">Data MV</h1>
             </div>
