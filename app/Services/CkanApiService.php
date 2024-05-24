@@ -7,14 +7,16 @@ use Exception;
 
 class CkanApiService {
     protected $ckanApiPath;
-    protected $ckanBasePath;
+    protected $ckanInternalPath;
+    protected $ckanPublicPath;
     protected $ckanApiToken;
     protected $ckanContentType = "application/json";
 
     public function __construct() {
         $this->ckanApiToken = env('CKAN_API_TOKEN');
-        $this->ckanBasePath = env('CKAN_BASE_PATH');
-        $this->ckanApiPath = $this->ckanBasePath."/api/3/action/";
+        $this->ckanInternalPath = env('CKAN_INTERNAL_URL');
+        $this->ckanPublicPath = env('CKAN_PUBLIC_URL');
+        $this->ckanApiPath = $this->ckanInternalPath."/api/3/action/";
     }
 
     private function handleErrorResponse($response) {
@@ -124,9 +126,12 @@ class CkanApiService {
     
         foreach ($dataset['result']['resources'] as &$resource) {
             $viewsResponse = $this->getResourceViews($resource['id']);
+
+            // $resource['embed_url'] = 'http://ckan.localhost/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'];
+            
             if (!isset($viewsResponse['error'])) {
                 $resource['views'] = $viewsResponse['result'] ?? [];
-                $resource['embed_url'] = !empty($resource['views']) ? $this->ckanBasePath . '/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'] : null;
+                $resource['embed_url'] = !empty($resource['views']) ? $this->ckanPublicPath . '/dataset/' . $id . '/resource/' . $resource['id'] . '/view/' . $resource['views'][0]['id'] : null;
             }
 
             $resource['api_url'] = isset($resource['datastore_active']) && $resource['datastore_active']

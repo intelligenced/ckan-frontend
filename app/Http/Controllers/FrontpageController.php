@@ -70,7 +70,8 @@ class FrontpageController extends Controller
     {
         $groups = $this->getGroups();
     
-        $response = $this->ckanService->getDataset($id);
+        $response = $this->ckanService->getDatasetWithResources($id);
+        
     
         if (isset($response['error']) && $response['error']) {
             return response()->json(['error' => true, 'message' => $response['message']], 500);

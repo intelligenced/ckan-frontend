@@ -76,6 +76,14 @@
                     </table>
                 </div>
 
+                <div class="mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-1 ml-2">API</h2>
+                    <div class="bg-gray-700 text-white  p-3 font-mono text-xs rounded">
+                        {{ $resource['api_url'] }}
+                    </div>
+                </div>
+
+
             @if(!empty($resource['embed_url']))
                 <iframe title="Data viewer" width="100%" height="500" src="{{ $resource['embed_url'] }}" frameborder="0"></iframe>
             @else
