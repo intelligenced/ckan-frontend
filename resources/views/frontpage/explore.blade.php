@@ -38,7 +38,7 @@
                 <hr class="my-4">
             </div>
 
-            <div class=" px-4 py-2 mb-2 bg-teal-50 border-teal-600 border">
+            <div class=" px-4 py-2 mb-2 bg-gray-50 border-gray-300 border">
     Filters:
     @if(request('group'))
         <span class="bg-teal-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2">
