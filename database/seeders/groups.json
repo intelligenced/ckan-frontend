@@ -1,60 +1,70 @@
 {
-    "categories": [
-      {
-        "name": "business_and_economy",
-        "title": "Business and Economy",
-        "description": "Access to comprehensive datasets on business registrations, industrial sector policies, and government incentives for trade and investments. Includes insights into economic development strategies and international trade agreements."
-      },
-      {
-        "name": "education",
-        "title": "Education",
-        "description": "Detailed open data on educational policies, school funding sources, and educational program evaluations. Provides transparency on government initiatives and reforms in the education sector."
-      },
-      {
-        "name": "environment_and_agriculture",
-        "title": "Environment and Agriculture",
-        "description": "Open datasets on environmental protection policies, government-led agricultural projects, and land management practices. Includes data on sustainability initiatives and environmental impact assessments."
-      },
-      {
-        "name": "health",
-        "title": "Health",
-        "description": "Public access to health policy documentation, healthcare service audits, and government health campaigns. Includes data on public health initiatives and outcomes of health service evaluations."
-      },
-      {
-        "name": "employment_and_labor",
-        "title": "Employment and Labor",
-        "description": "Open data on labor laws, employment programs, and government-led workforce development initiatives. Provides insights into workforce demographics and government efforts in employment regulation and support."
-      },
-      {
-        "name": "government_operations",
-        "title": "Government Operations",
-        "description": "Datasets on government procedural manuals, public sector contracts, and transparency reports. Includes spending data linked to specific government projects and initiatives for public scrutiny."
-      },
-      {
-        "name": "mapping_and_geospatial_data",
-        "title": "Mapping and Geospatial Data",
-        "description": "Access to national geospatial data resources, including infrastructure projects, land use planning, and environmental conservation areas. Supports public access to critical geographic information systems."
-      },
-      {
-        "name": "social_welfare",
-        "title": "Social Welfare",
-        "description": "Open datasets on social program funding, welfare policy implementations, and outcomes of social services. Includes government reports on the efficacy of social support systems."
-      },
-      {
-        "name": "urban_development_and_housing",
-        "title": "Urban Development and Housing",
-        "description": "Data on urban development projects, public consultations, and housing policies. Provides transparency in government planning and public infrastructure projects."
-      },
-      {
-        "name": "transport_and_infrastructure",
-        "title": "Transport and Infrastructure",
-        "description": "Open data on transport policy, infrastructure development plans, and public transport service evaluations. Includes information on government initiatives to improve national transport systems."
-      },
-      {
-        "name": "tourism",
-        "title": "Tourism",
-        "description": "Open datasets on tourism development strategies, visitor management policies, and cultural heritage preservation efforts. Provides insights into government actions to boost tourism while preserving natural and cultural resources."
-      }
-    ]
-  }
-  
+  "categories": [
+    {
+      "name": "cities_and_islands",
+      "title": "Cities and Islands",
+      "description": "Includes housing, urban planning, leisure, waste and energy, consumption.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/309/309899.png"
+    },
+    {
+      "name": "crime_and_justice",
+      "title": "Crime and Justice",
+      "description": "Courts, police, prison, offenders, borders, and immigration.",
+      "image_url": "https://static.thenounproject.com/png/4726836-200.png"
+    },
+    {
+      "name": "tourism",
+      "title": "Tourism",
+      "description": "Tourist attractions, visitor statistics, cultural events, and travel information.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/2706/2706094.png"
+    },
+    {
+      "name": "history_and_culture",
+      "title": "History and Culture",
+      "description": "Archival records, cultural heritage, museums, and educational resources.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/2201/2201563.png"
+    },
+    {
+      "name": "environment",
+      "title": "Environment",
+      "description": "Weather, flooding, rivers, air quality, geology, and agriculture.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/1598/1598238.png"
+    },
+    {
+      "name": "fisheries_and_agriculture",
+      "title": "Fisheries and Agriculture",
+      "description": "Fisheries management, agricultural practices, and sustainability measures.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/5273/5273398.png"
+    },
+    {
+      "name": "business_and_economy",
+      "title": "Business and Economy",
+      "description": "Small businesses, industry, imports, exports, and trade.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/3188/3188136.png"
+    },
+    {
+      "name": "mapping",
+      "title": "Mapping",
+      "description": "Addresses, boundaries, land ownership, aerial photographs, seabed, and land terrain.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/2953/2953336.png"
+    },
+    {
+      "name": "society",
+      "title": "Society",
+      "description": "Employment, benefits, household finances, poverty, and population.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/4350/4350908.png"
+    },
+    {
+      "name": "transport",
+      "title": "Transport",
+      "description": "Airports, roads, freight, electric vehicles, parking, buses, and footpaths.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/1264/1264818.png"
+    },
+    {
+      "name": "education",
+      "title": "Education",
+      "description": "Students, training, qualifications, and the National Curriculum.",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/2702/2702162.png"
+    }
+  ]
+}
