@@ -17,9 +17,8 @@
                 Search
             </button>
         </form>
-
+        <div>
         <h2 class="text-xl font-semibold mb-4 mx-2">Groups</h2>
-
         <ul>
             @foreach($groups as $group)
                 <li class="mb-2">
@@ -35,7 +34,8 @@
                 </li>
             @endforeach
         </ul>
-
+        </div>
+        <div class="mb-4">
         <h2 class="text-xl font-semibold mb-4 mx-2">Organisations</h2>
         <select onchange="handleOrganizationChange(this)">
             @if(request('organization'))
@@ -50,7 +50,32 @@
                 </option>
             @endforeach
         </select>
+        <div>
 
+        <div class="mt-4">
+
+        <h2 class="text-xl font-semibold mb-2 mx-2">Tags</h2>
+        <div class="flex flex-wrap mb-2">
+            @foreach($tags as $tag)
+                <div class="inline-flex items-center {{ (request('tag') == $tag['name']) ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-800' }} rounded text-sm m-1">
+                    <a href="{{ route('frontpage.explore', array_filter([
+                            'tag' => $tag['name'], 
+                            'group' => request('group'), 
+                            'organization' => request('organization'),
+                            'name' => request('name')
+                        ])) }}"
+                    class="px-2 py-1 rounded">
+                        {{ $tag['name'] }}
+                    </a>
+                    @if(request('tag') == $tag['name'])
+                        <button onclick="removeTagFilter()" class="text-white text-lg px-2 ">
+                            &times;
+                        </button>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+                    </div>
 
     </div>
 </aside>
@@ -88,6 +113,12 @@ function handleOrganizationChange(select) {
     }
     const newUrl = `${basePath}?${searchParams.toString()}`;
     window.location = newUrl;
+}
+
+function removeTagFilter() {
+    const currentUrl = new URL(window.location);
+    currentUrl.searchParams.delete('tag');
+    window.location = currentUrl.toString();
 }
 
 </script>
