@@ -19,7 +19,9 @@
         <!-- Top Banner -->
         <header class="bg-teal-800 p-4 shadow-md">
             <div class="container mx-auto">
-                <h1 class="text-3xl text-white font-bold">Data MV</h1>
+                <a href="{{  route('frontpage.index') }}">
+                    <h1 class="text-3xl text-white font-bold">Data MV</h1>
+                </a>
             </div>
         </header>
 
