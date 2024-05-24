@@ -3,8 +3,6 @@
         <!-- Sidebar -->
         @include('frontpage.partials.sidebar', ['groups' => $groups, 'selected_group' => $selected_group ?? null])
 
-
-
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-white flex flex-col"> 
             <div>
@@ -40,6 +38,29 @@
                 <hr class="my-4">
             </div>
 
+            <div class=" px-4 py-2 mb-2 bg-teal-50">
+    Filters:
+    @if(request('group'))
+        <span class="bg-teal-200 rounded-full px-3 py-1 text-sm font-semibold text-teal-700 mr-2">
+            Group: {{ request('group') }}
+            <a href="{{ request()->fullUrlWithQuery(['group' => null]) }}" class="text-teal-700 font-bold ml-1">×</a>
+        </span>
+    @endif
+    @if(request('tag'))
+        <span class="bg-teal-200 rounded-full px-3 py-1 text-sm font-semibold text-teal-700 mr-2">
+            Tag: {{ request('tag') }}
+            <a href="{{ request()->fullUrlWithQuery(['tag' => null]) }}" class="text-teal-700 font-bold ml-1">×</a>
+        </span>
+    @endif
+    @if(request('name'))
+        <span class="bg-teal-200 rounded-full px-3 py-1 text-sm font-semibold text-teal-700 mr-2">
+            Query: {{ request('name') }}
+            <a href="{{ request()->fullUrlWithQuery(['name' => null]) }}" class="text-teal-700 font-bold ml-1">×</a>
+        </span>
+    @endif
+</div>
+
+ 
             <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
                 Datasets
                 <span class="text-sm font-normal text-gray-600">

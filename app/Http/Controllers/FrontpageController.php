@@ -30,42 +30,48 @@ class FrontpageController extends Controller
     public function explore(Request $request)
     {
         $groups = $this->getGroups();
-
+    
         $selected_group_name = $request->input('group');
         $selected_group = collect($groups)->firstWhere('name', $selected_group_name);
-
+    
+        // Initialize the query parameters array.
         $params = [];
-
+        $searchTerms = [];
+    
+        // Append group, tag, and name filters to the search query if they exist.
         if ($request->has('group')) {
-            $params['q'] = 'groups:' . $request->input('group');
+            $searchTerms[] = 'groups:' . $request->input('group');
         }
-
+    
         if ($request->has('tag')) {
-            $params['q'] = 'tags:' . $request->input('tag');
+            $searchTerms[] = 'tags:' . $request->input('tag');
         }
-
+    
         if ($request->has('name')) {
-            $params['q'] = 'name:' . $request->input('name');
+            $searchTerms[] = 'name:*' . $request->input('name') . '*'; // Adding wildcards to allow partial matches.
         }
-
-        if (empty($params)) {
-            $params['sort'] = 'metadata_modified desc'; // Assuming 'metadata_modified' is the relevant field for sorting
-            $params['rows'] = 10; // You can adjust the number of rows as necessary
+    
+        // If specific search terms are added, join them with AND; otherwise, fetch latest datasets.
+        if (!empty($searchTerms)) {
+            $params['q'] = implode(' AND ', $searchTerms);
+        } else {
+            $params['sort'] = 'metadata_modified desc';
+            $params['rows'] = 10; // Fetches the latest 10 datasets by default if no specific search criteria are provided.
         }
-
+    
         $result = $this->ckanService->search($params);
-
+    
         if (isset($result['error']) && $result['error']) {
             return response()->json(['error' => true, 'message' => $result['message']], 500);
         }
-
+    
         return view('frontpage.explore', [
             'selected_group' => $selected_group,
             'groups' => $groups,
             'datasets' => $result['result']['results']
         ]);
     }
-
+    
 
     public function data($id)
     {
