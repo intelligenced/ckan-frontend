@@ -12,11 +12,14 @@
                     <ol class="list-reset flex">
                         <li><a href="{{ route('frontpage.index') }}" class="hover:underline">Home</a></li>
                         <li><span class="mx-2">></span></li>
+                        <li><a href="{{ route('frontpage.explore') }}" class="hover:underline">Explore</a></li>
+                        @if($selected_group)
+                        <li><span class="mx-2">></span></li>
                         <li class="text-black">
-                            @if($selected_group)
                             {{ $selected_group['display_name'] }}
-                            @endif
                         </li>
+                        @endif
+
                     </ol>
                 </nav>
                 <div class="pl-4 border-l-4 border-teal-700">
@@ -25,10 +28,16 @@
                     <div class="flex justify-between items-start">
                         <p class="text-gray-600">{{ $selected_group['description'] }}</p>
                     </div>
+                    @else
+                    <h1 class="text-3xl font-semibold mb-4">Explore</h1>
+                    <div class="flex justify-between items-start">
+                        <p class="text-gray-600">
+                            Access comprehensive datasets from the Government of Maldives. Engage with critical data insights to understand national trends, policies, and administrative outcomes.
+                        </p>
+                    </div>
                     @endif
                 </div>
                 <hr class="my-4">
-
             </div>
 
             <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
