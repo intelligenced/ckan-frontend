@@ -1,19 +1,8 @@
 <x-guest-layout>
     <div class="flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white shadow-md p-4  border-r border-gray-200">
+        @include('frontpage.partials.sidebar', ['groups' => $groups, 'selected_group' => $selected_group ?? null])
 
-    <div class="mt-4">
-    <h2 class="text-xl font-semibold mb-4">Categories</h2>
-    <ul>
-        @foreach($groups as $group)
-            <li class="mb-2">
-                <a href="{{ route('frontpage.category', ['group' => $group['name']]) }}" class="text-teal-600 hover:underline">{{ $group['title'] }}</a>
-            </li>
-        @endforeach
-    </ul>
-</div>
-</aside>
 
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-white">

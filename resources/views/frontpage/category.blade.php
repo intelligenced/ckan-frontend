@@ -1,18 +1,9 @@
 <x-guest-layout>
     <div class="flex min-h-screen"> 
         <!-- Sidebar -->
-        <aside class="w-64 bg-white shadow-md p-4 border-r border-gray-200 flex flex-col">
-            <div class="mt-4 flex-grow">
-                <h2 class="text-xl font-semibold mb-4">Categories</h2>
-                <ul>
-                    @foreach($groups as $group)
-                        <li class="mb-2">
-                            <a href="{{ route('frontpage.category', ['group' => $group['name']]) }}" class="text-teal-600 hover:underline">{{ $group['title'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </aside>
+        @include('frontpage.partials.sidebar', ['groups' => $groups, 'selected_group' => $selected_group ?? null])
+
+
 
         <!-- Main Content -->
         <main class="flex-1 p-6 bg-white flex flex-col"> 
@@ -32,7 +23,7 @@
                     @if($selected_group)
                     <h1 class="text-3xl font-semibold mb-4">{{  $selected_group['display_name'] }}</h1>
                     <div class="flex justify-between items-start">
-                        <p class="text-gray-600 font-semibold">{{ $selected_group['description'] }}</p>
+                        <p class="text-gray-600">{{ $selected_group['description'] }}</p>
                     </div>
                     @endif
                 </div>
@@ -40,15 +31,48 @@
 
             </div>
 
+            <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
+                Datasets
+                <span class="text-sm font-normal text-gray-600">
+                    Dataset Count: 
+                    @if(is_array($datasets) && count($datasets) > 0)
+                        {{ count($datasets) }}
+                    @else
+                        0
+                    @endif
+                </span>
+            </h2>
+
+
+
             <div class="flex-grow overflow-auto">
-                @foreach($datasets as $dataset)
-                    <div class="mb-4 bg-white shadow rounded-lg p-6">
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-3">{{ $dataset['title'] }}</h2>
-                        <p class="text-gray-600 mb-5">{{ $dataset['notes'] }}</p>
+    <table class="min-w-full bg-white shadow rounded-md">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-md font-semibold text-gray-700 border-b-2 border-gray-300">Title</th>
+                <th class="px-6 py-3 text-left text-md font-semibold text-gray-700 border-b-2 border-gray-300">Notes</th>
+                <th class="px-6 py-3 text-left text-md font-semibold text-gray-700 border-b-2 border-gray-300">Organisation</th>
+                <th class="px-6 py-3 text-left text-md font-semibold text-gray-700 border-b-2 border-gray-300">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-300">
+            @foreach($datasets as $dataset)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3 whitespace-nowrap text-md text-gray-900 ">{{ $dataset['title'] }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-md text-gray-600">{{ $dataset['notes'] }}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-md text-gray-600">
+                        {{ $dataset['organization']['title'] }}
+                    </td>
+
+                    <td class="px-6 py-3 whitespace-nowrap text-md font-medium">
                         <a href="{{ route('frontpage.data', ['id' => $dataset['id']]) }}" class="text-teal-600 hover:text-teal-800 hover:underline">View Dataset</a>
-                    </div>
-                @endforeach
-            </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
         </main>
     </div>
 </x-guest-layout>
