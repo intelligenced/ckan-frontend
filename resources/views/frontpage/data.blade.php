@@ -11,7 +11,7 @@
                 <ol class="list-reset flex">
                     <li><a href="{{ route('frontpage.index') }}" class="hover:underline">Home</a></li>
                     <li><span class="mx-2">></span></li>
-                    <li><a href="{{ route('frontpage.explore') }}" class="hover:underline">Categories</a></li>
+                    <li><a href="{{ route('frontpage.explore') }}" class="hover:underline">Explore</a></li>
                     <li><span class="mx-2">></span></li>
                     <li class="text-black">{{ $dataset['title'] }}</li>
                 </ol>
