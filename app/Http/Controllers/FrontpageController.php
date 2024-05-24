@@ -27,7 +27,7 @@ class FrontpageController extends Controller
         return view('frontpage.index', ['groups' => $groups]);
     }
 
-    public function category(Request $request)
+    public function explore(Request $request)
     {
         $groups = $this->getGroups();
 
@@ -49,7 +49,8 @@ class FrontpageController extends Controller
         }
 
         if (empty($params)) {
-            return response()->json(['error' => true, 'message' => 'No search criteria provided.'], 400);
+            $params['sort'] = 'metadata_modified desc'; // Assuming 'metadata_modified' is the relevant field for sorting
+            $params['rows'] = 10; // You can adjust the number of rows as necessary
         }
 
         $result = $this->ckanService->search($params);
@@ -58,7 +59,7 @@ class FrontpageController extends Controller
             return response()->json(['error' => true, 'message' => $result['message']], 500);
         }
 
-        return view('frontpage.category', [
+        return view('frontpage.explore', [
             'selected_group' => $selected_group,
             'groups' => $groups,
             'datasets' => $result['result']['results']

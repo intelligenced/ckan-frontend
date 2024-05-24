@@ -4,7 +4,7 @@
         <ul>
             @foreach($groups as $group)
                 <li class="mb-2">
-                    <a href="{{ route('frontpage.category', ['group' => $group['name']]) }}"
+                    <a href="{{ route('frontpage.explore', ['group' => $group['name']]) }}"
                        class="{{ (isset($selected_group) && $selected_group['name'] == $group['name']) ? 'block px-4 text-teal-600 hover:underline border-l-4 border-teal-600 font-semibold' : 'block px-4  text-teal-600 hover:underline' }}">
                         {{ $group['title'] }}
                     </a>

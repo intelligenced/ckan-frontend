@@ -11,7 +11,7 @@
             <div class="bg-white p-6 rounded-lg shadow-lg transition duration-300 ease-in-out hover:shadow-xl">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-3">{{ $group['title'] }}</h2>
                 <p class="text-gray-600 mb-5">{{ $group['description'] }}</p>
-                <a href="{{ route('frontpage.category', ['group' => $group['name']]) }}" class="inline-block text-teal-600 hover:text-teal-800 hover:underline">View Catalogue</a>
+                <a href="{{ route('frontpage.explore', ['group' => $group['name']]) }}" class="inline-block text-teal-600 hover:text-teal-800 hover:underline">View Catalogue</a>
             </div>
         @endforeach
 

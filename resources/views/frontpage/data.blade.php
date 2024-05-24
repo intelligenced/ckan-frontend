@@ -11,7 +11,7 @@
                 <ol class="list-reset flex">
                     <li><a href="{{ route('frontpage.index') }}" class="hover:underline">Home</a></li>
                     <li><span class="mx-2">></span></li>
-                    <li><a href="{{ route('frontpage.category') }}" class="hover:underline">Categories</a></li>
+                    <li><a href="{{ route('frontpage.explore') }}" class="hover:underline">Categories</a></li>
                     <li><span class="mx-2">></span></li>
                     <li class="text-black">{{ $dataset['title'] }}</li>
                 </ol>
@@ -25,7 +25,7 @@
                     <div class="flex space-x-2">
                         <span>Categories:</span>
                         @foreach($dataset['groups'] as $group)
-                            <a href="{{ route('frontpage.category', ['group' => $group['name']]) }}" class="text-teal-600 hover:underline">{{ $group['title'] }}</a>
+                            <a href="{{ route('frontpage.explore', ['group' => $group['name']]) }}" class="text-teal-600 hover:underline">{{ $group['title'] }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -75,8 +75,6 @@
 
             @if(!empty($resource['embed_url']))
                 <iframe title="Data viewer" width="100%" height="500" src="{{ $resource['embed_url'] }}" frameborder="0"></iframe>
-            @else
-                N/A
             @endif
 
 
