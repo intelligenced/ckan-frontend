@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="flex min-h-screen"> 
+    <div class="flex"> 
         <!-- Sidebar -->
         @include('frontpage.partials.sidebar', [
             'groups' => $groups, 

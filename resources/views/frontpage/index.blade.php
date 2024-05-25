@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen bg-white">
+    <div class=" bg-white">
         <!-- Introduction and Search Section -->
         <div class="p-12 bg-teal-50 border-b-4 border-teal-600">
             <h1 class="font-semibold text-3xl mb-2">Find Open Data</h1>

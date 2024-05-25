@@ -17,24 +17,29 @@
     <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
         <!-- Top Banner -->
-        <header class="bg-teal-800 p-4 shadow-md">
-            <div class="container mx-auto">
-                <a href="{{  route('frontpage.index') }}">
-                    <h1 class="text-3xl text-white font-bold">Data MV</h1>
-                </a>
+        <header class="bg-teal-800 p-4 shadow-md ">
+    <div class="container mx-auto flex items-center">
+        <a href="{{ route('frontpage.index') }}" class="flex items-center ml-4">
+            @include('frontpage.partials.logo')  <!-- Ensure your logo is white or suitable color -->
+            <h1 class="text-3xl text-white font-bold ml-3">Data MV</h1>
+        </a>
+    </div>
+</header>
+
+
+
+        <!-- Main Content -->
+        <div class="container mx-auto">
+            {{ $slot }}
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto text-center">
+                <p>© {{ now()->year }} | This project is a prototype developed for the Master of Science, Design and Research in Open Government Data.</p>
             </div>
-        </header>
+        </footer>
 
-<!-- Main Content -->
-<div class="container mx-auto">
-
-    {{ $slot }}
-
-</div>
-@stack('scripts')
-
-
-</body>
+        @stack('scripts')
+    </body>
 </html>
-
-
