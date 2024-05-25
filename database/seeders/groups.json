@@ -1,6 +1,12 @@
 {
   "categories": [
     {
+      "name": "government_data",
+      "title": "Government Data",
+      "description": "Trusted data that is referenced and shared across government departments",
+      "image_url": "https://cdn-icons-png.flaticon.com/512/6622/6622389.png"
+    },
+    {
       "name": "cities_and_islands",
       "title": "Cities and Islands",
       "description": "Includes housing, urban planning, leisure, waste and energy, consumption.",
@@ -57,7 +63,7 @@
     {
       "name": "transport",
       "title": "Transport",
-      "description": "Airports, roads, freight, electric vehicles, parking, buses, and footpaths.",
+      "description": "Airports, roads, ferries, safaris, parking, buses, and footpaths.",
       "image_url": "https://cdn-icons-png.flaticon.com/512/1264/1264818.png"
     },
     {
