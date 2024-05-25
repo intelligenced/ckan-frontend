@@ -97,17 +97,17 @@
                         <h2 class="text-xl font-semibold text-gray-800 mb-2">Metadata</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                             <div class="bg-white p-4 shadow rounded">
-                                <p><strong>Author:</strong> {{ $dataset['author'] ?: 'N/A' }}</p>
-                                <p><strong>Maintainer:</strong> {{ $dataset['maintainer'] ?: 'N/A' }}</p>
-                                <p><strong>License:</strong> <a href="{{ $dataset['license_url'] }}" class="text-teal-600 hover:underline">{{ $dataset['license_title'] }}</a></p>
-                                <p><strong>Created:</strong> {{ \Carbon\Carbon::parse($dataset['metadata_created'])->format('M d, Y') }}</p>
-                                <p><strong>Modified:</strong> {{ \Carbon\Carbon::parse($dataset['metadata_modified'])->format('M d, Y') }}</p>
+                                <p><strong>Author:</strong> {{ data_get($dataset, 'author', 'N/A') }}</p>
+                                <p><strong>Maintainer:</strong> {{ data_get($dataset, 'maintainer', 'N/A') }}</p>
+                                <p><strong>License:</strong> <a href="{{ data_get($dataset, 'license_url', '#') }}" class="text-teal-600 hover:underline">{{ data_get($dataset, 'license_title', 'N/A') }}</a></p>
+                                <p><strong>Created:</strong> {{ \Carbon\Carbon::parse(data_get($dataset, 'metadata_created', now()))->format('M d, Y') }}</p>
+                                <p><strong>Modified:</strong> {{ \Carbon\Carbon::parse(data_get($dataset, 'metadata_modified', now()))->format('M d, Y') }}</p>
                             </div>
                             <div class="bg-white p-4 shadow rounded">
-                                <p><strong>Organization:</strong> {{ $dataset['organization']['title'] }}</p>
-                                <p><strong>Owner Org:</strong> {{ $dataset['owner_org'] }}</p>
-                                <p><strong>State:</strong> {{ $dataset['state'] }}</p>
-                                <p><strong>Version:</strong> {{ $dataset['version'] ?: 'N/A' }}</p>
+                                <p><strong>Organization:</strong> {{ data_get($dataset, 'organization.title', 'N/A') }}</p>
+                                <p><strong>Owner Org:</strong> {{ data_get($dataset, 'owner_org', 'N/A') }}</p>
+                                <p><strong>State:</strong> {{ data_get($dataset, 'state', 'N/A') }}</p>
+                                <p><strong>Version:</strong> {{ data_get($dataset, 'version', 'N/A') }}</p>
                             </div>
                         </div>
                     </div>
