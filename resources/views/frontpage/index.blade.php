@@ -18,10 +18,10 @@
         </div>
 
         <!-- Data Categories -->
-        <div class="px-4 md:px-6 lg:px-8 my-4">
+        <div class="p-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($groups as $group)
-                    <a href="{{ route('frontpage.explore', ['group' => $group['name']]) }}" class="block hover:bg-gray-50 transition duration-300 ease-in-out shadow-sm hover:shadow-md rounded-lg">
+                    <a href="{{ route('frontpage.explore', ['group' => $group['name']]) }}" class="block bg-gray-50  hover:bg-teal-50 transition duration-300 ease-in-out  hover:shadow-md rounded-lg">
                         <div class="p-4 flex items-center space-x-4"> 
                             <img src="{{ $group['image_display_url'] }}" alt="{{ $group['title'] }}" class="h-12 w-12"> 
                             <div>
