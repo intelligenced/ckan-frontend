@@ -38,40 +38,54 @@ class SeedController extends Controller
         $ckanService = new CkanApiService();
         $filePath = database_path('seeders/dataSeeder.csv');
         $groups =  collect($ckanService->getGroups()['result']);
-    
+        
         if (($handle = fopen($filePath, "r")) !== FALSE) {
             $header = fgetcsv($handle); 
     
             if (isset($header[0]) && strpos($header[0], "\xEF\xBB\xBF") === 0) {
                 $header[0] = substr($header[0], 3);
             }
-    
+            
+            echo "Starting dataset seeding process...\n<br>";
+            
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                 $row = array_combine($header, $data);
-    
                 $datasetFilePath = database_path('seeders/data/'.$row['file']);
                 $group = $groups->firstWhere('name', $row['group']);
-
+    
                 $datasetData = [
                     'title' => $row['title'],
                     'description' => $row['description'],
+                    'tags' => $row['tags'],
                     'group_id' => $group['id']
-                 ];
-
+                ];
     
-
+                echo "Creating dataset: " . $row['title'] . "...\n<br>";
                 $result = $ckanService->createDataset($datasetData, $datasetFilePath);
-                dd($result);
     
-                // if (isset($result['error']) && $result['error']) {
-                //     continue;
-                // }
+                if (isset($result['result']) && isset($result['result']['id'])) {
+                    $packageId = $result['result']['id'];
+                    echo "Uploading resource for dataset: " . $row['title'] . "...\n<br>";
+                    $result = $ckanService->uploadResource($packageId, $datasetFilePath);
+    
+                    if (isset($result['error']) && $result['error']) {
+                        echo "Error uploading resource for " . $row['title'] . ": " . $result['message'] . "\n<br>";
+                        continue;
+                    } else {
+                        echo "Resource uploaded successfully for " . $row['title'] . "\n<br>";
+                    }
+                } else {
+                    echo "Error creating dataset " . $row['title'] . ": " . $result['message'] . "\n<br>";
+                    continue;
+                }
             }
             fclose($handle);
+            echo "Dataset seeding process completed.\n<br>";
         } else {
-            throw new Exception("Unable to open file at path");
+            throw new Exception("Unable to open file at path: $filePath");
         }
     }
+    
     
     
 }

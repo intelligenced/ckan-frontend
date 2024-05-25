@@ -24,7 +24,6 @@ class CkanApiService {
     private function handleErrorResponse($response) {
         if ($response->failed()) {
             $error = $response->json();
-            dd($error);
             $message = $error['error']['message'] ?? 'An unknown error occurred.';
             throw new Exception("Error Processing Request: " . $message);
         }
@@ -108,6 +107,40 @@ class CkanApiService {
         }
     }
     
+    public function uploadResource($packageId, $filePath) {
+        try {
+            $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $finfo->file($filePath);
+            $fileName = basename($filePath);
+            $response = Http::withHeaders([
+                'Authorization' => $this->ckanApiToken,
+                'Accept' => 'application/json'
+            ])->attach(
+                'upload', fopen($filePath, 'r'), $fileName,
+                ['Content-Type' => $mimeType]  
+            )->post($this->ckanApiPath . 'resource_create', [
+                'package_id' => $packageId,   
+                'name' => $fileName,         
+                'format' => strtoupper($extension),
+                'mimetype' => $mimeType
+            ]);
+            fclose(fopen($filePath, 'r')); 
+            return $this->handleErrorResponse($response);
+
+        } catch (RequestException $e) {
+            return [
+                'error' => true,
+                'message' => 'Network error or request timed out: ' . $e->getMessage()
+            ];
+        } catch (Exception $e) {
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    
     
 
 
@@ -142,61 +175,30 @@ class CkanApiService {
     }
     
     public function createDataset($data, $filePath) {
-
-        $body = [
-            [
-                'name'     => 'name',
-                'contents' => strtolower(str_replace(' ', '_', $data['title']))
-
-            ],
-            [
-                'name'     => 'title',
-                'contents' => $data['title']
-            ],
-            [
-                'name'     => 'notes',
-                'contents' => $data['description']
-            ],
-            [
-                'name'     => 'owner_org',
-                'contents' =>  $this->ckanSeedOrganisationId,
-            ],
+        $dataset = [
+            'name' => strtolower(str_replace(' ', '_', $data['title'])),
+            'title' => $data['title'],
+            'notes' => $data['description'],
+            'owner_org' => $this->ckanSeedOrganisationId,
+            'groups' => [
+                ['id' => $data['group_id']]
+            ]
         ];
-    
-        if (isset($data['group_id'])) {
-            $body[] = [
-                'name'     => 'groups[0][id]',
-                'contents' => $data['group_id']
-            ];
+        if (isset($data['tags']) && is_string($data['tags'])) {
+            $tagsArray = explode(',', $data['tags']);
+            $dataset['tags'] = array_map(function($tag) {
+                return ['name' => trim($tag)]; 
+            }, $tagsArray);
         }
-
-    
-        if (isset($data['tags'])) {
-            foreach ($data['tags'] as $index => $tag) {
-                $body[] = [
-                    'name'     => "tags[$index][name]",
-                    'contents' => $tag
-                ];
-            }
+        if (isset($data['extras']) && is_array($data['extras'])) {
+            $dataset['extras'] = array_map(function($key, $value) {
+                return ['key' => $key, 'value' => $value];
+            }, array_keys($data['extras']), $data['extras']);
         }
     
-        if (isset($data['extras'])) {
-            foreach ($data['extras'] as $key => $value) {
-                $body[] = [
-                    'name'     => "extras[$key][key]",
-                    'contents' => $key
-                ];
-                $body[] = [
-                    'name'     => "extras[$key][value]",
-                    'contents' => $value
-                ];
-            }
-        }
-
-
-    
-        return $this->postCkanRequestMultipart('package_create', $body, $filePath);
+        return $this->postCkanRequest('package_create', $dataset);
     }
+    
     
     
 
