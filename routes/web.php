@@ -16,6 +16,8 @@ Route::get('/data/{id}', [FrontpageController::class, 'data'])->name('frontpage.
 
 Route::get('/seeddGroups',[SeedController::class, 'seedGroups'])->name('seed.groups');
 Route::get('/seedDatasets',[SeedController::class, 'seedDatasets'])->name('seed.datasets');
+Route::get('/deseedDatasets',[SeedController::class, 'deseedDatasets'])->name('seed.delete.datasets');
+
 
 
 Route::get('/dashboard', function () {

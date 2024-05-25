@@ -33,11 +33,16 @@ class SeedController extends Controller
 
         return response()->json($result);
     }
-
     public function seedDatasets() {
         $ckanService = new CkanApiService();
         $filePath = database_path('seeders/dataSeeder.csv');
-        $groups =  collect($ckanService->getGroups()['result']);
+        $groupsResponse = $ckanService->getGroups();
+    
+        if (!isset($groupsResponse['result'])) {
+            throw new Exception("Failed to fetch groups: " . $groupsResponse['message']);
+        }
+    
+        $groups = collect($groupsResponse['result']);
         
         if (($handle = fopen($filePath, "r")) !== FALSE) {
             $header = fgetcsv($handle); 
@@ -53,11 +58,16 @@ class SeedController extends Controller
                 $datasetFilePath = database_path('seeders/data/'.$row['file']);
                 $group = $groups->firstWhere('name', $row['group']);
     
+                if (!$group) {
+                    echo "Group not found for " . $row['title'] . ", skipping dataset.\n<br>";
+                    continue;
+                }
+    
                 $datasetData = [
                     'title' => $row['title'],
                     'description' => $row['description'],
                     'tags' => $row['tags'],
-                    'group_id' => $group['id']
+                    'group_id' => $group['id'] ?? null
                 ];
     
                 echo "Creating dataset: " . $row['title'] . "...\n<br>";
@@ -85,6 +95,35 @@ class SeedController extends Controller
             throw new Exception("Unable to open file at path: $filePath");
         }
     }
+
+
+    public function deseedDatasets() {
+        $ckanService = new CkanApiService();
+        $datasetsResponse = $ckanService->search(['rows' => 1000]); 
+    
+        if (isset($datasetsResponse['error']) && $datasetsResponse['error']) {
+            throw new Exception("Failed to fetch datasets: " . $datasetsResponse['message']);
+        }
+    
+        $datasets = $datasetsResponse['result']['results'];
+    
+        echo "Starting deletion of all datasets...\n<br>";
+    
+        foreach ($datasets as $dataset) {
+            $datasetId = $dataset['id'];
+            $deleteResponse = $ckanService->deleteDataset($datasetId);
+    
+            if (isset($deleteResponse['error']) && $deleteResponse['error']) {
+                echo "Failed to delete dataset ID {$datasetId}: " . $deleteResponse['message'] . "\n<br>";
+            } else {
+                echo "Successfully deleted dataset ID {$datasetId}\n<br>";
+            }
+        }
+    
+        echo "All datasets have been deleted.\n<br>";
+    }
+    
+    
     
     
     

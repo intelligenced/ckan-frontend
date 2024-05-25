@@ -140,6 +140,26 @@ class CkanApiService {
             ];
         }
     }
+
+    public function deleteDataset($datasetId) {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => $this->ckanApiToken,
+            ])->post($this->ckanApiPath . 'package_delete', ['id' => $datasetId]);
+    
+            return $this->handleErrorResponse($response);
+        } catch (RequestException $e) {
+            return [
+                'error' => true,
+                'message' => 'Network error or request timed out: ' . $e->getMessage()
+            ];
+        } catch (Exception $e) {
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
     
     
 
@@ -175,8 +195,11 @@ class CkanApiService {
     }
     
     public function createDataset($data, $filePath) {
+        $sanitizedTitle = strtolower($data['title']);
+        $sanitizedTitle = preg_replace('/[^a-z0-9_\-]/', '_', $sanitizedTitle); 
+
         $dataset = [
-            'name' => strtolower(str_replace(' ', '_', $data['title'])),
+            'name' => $sanitizedTitle,
             'title' => $data['title'],
             'notes' => $data['description'],
             'owner_org' => $this->ckanSeedOrganisationId,
@@ -184,6 +207,7 @@ class CkanApiService {
                 ['id' => $data['group_id']]
             ]
         ];
+
         if (isset($data['tags']) && is_string($data['tags'])) {
             $tagsArray = explode(',', $data['tags']);
             $dataset['tags'] = array_map(function($tag) {
