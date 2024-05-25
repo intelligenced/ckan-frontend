@@ -14,7 +14,9 @@ Route::get('/', [FrontpageController::class, 'index'])->name('frontpage.index');
 Route::get('/explore', [FrontpageController::class, 'explore'])->name('frontpage.explore');
 Route::get('/data/{id}', [FrontpageController::class, 'data'])->name('frontpage.data');
 
-Route::get('/seedgroup',[SeedController::class, 'seedGroup'])->name('seed.group');
+Route::get('/seeddGroups',[SeedController::class, 'seedGroups'])->name('seed.groups');
+Route::get('/seedDatasets',[SeedController::class, 'seedDatasets'])->name('seed.datasets');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
