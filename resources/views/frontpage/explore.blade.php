@@ -86,31 +86,32 @@
             </h2>
 
             <div class="flex-grow overflow-auto">
-    <table class="min-w-full shadow-sm rounded-lg">
-        <thead class="bg-teal-50">
-            <tr>
-                <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t border-b border-teal-600">Title</th>
-                <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Notes</th>
-                <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Organisation</th>
-                <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-teal-300">
-            @foreach($datasets as $dataset)
-                <tr class="hover:bg-teal-50">
-                    <td class="px-6 py-2 whitespace-nowrap text-md text-gray-900">{{ $dataset['title'] }}</td>
-                    <td class="px-6 py-2 whitespace-nowrap text-md text-gray-600">{{ $dataset['notes'] }}</td>
-                    <td class="px-6 py-2 whitespace-nowrap text-md text-gray-600">
-                        {{ $dataset['organization']['title'] }}
-                    </td>
-                    <td class="px-6 py-2 whitespace-nowrap text-md font-medium">
-                        <a href="{{ route('frontpage.data', ['id' => $dataset['id']]) }}" class="text-teal-600 hover:text-teal-800 hover:underline">View Dataset</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+                <table class="min-w-full shadow-sm rounded-lg">
+                    <thead class="bg-teal-50">
+                        <tr>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t border-b border-teal-600">Title</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Notes</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Organisation</th>
+                            <th class="px-6 py-2 text-left text-md font-semibold text-gray-700 border-t  border-b border-teal-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-teal-300">
+                        @foreach($datasets as $dataset)
+                            <tr class="hover:bg-teal-50">
+                                <td class="px-6 py-2 whitespace-normal break-words text-md text-gray-900">{{ $dataset['title'] }}</td>
+                                <td class="px-6 py-2 whitespace-normal break-words text-md text-gray-600">{{ $dataset['notes'] }}</td>
+                                <td class="px-6 py-2 whitespace-normal break-words text-md text-gray-600">
+                                    {{ $dataset['organization']['title'] }}
+                                </td>
+                                <td class="px-6 py-2 whitespace-nowrap text-md font-medium">
+                                    <a href="{{ route('frontpage.data', ['id' => $dataset['id']]) }}" class="text-teal-600 hover:text-teal-800 hover:underline">View Dataset</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
 
 
 
