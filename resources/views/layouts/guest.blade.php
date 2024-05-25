@@ -18,13 +18,13 @@
 
         <!-- Top Banner -->
         <header class="bg-teal-800 p-4 shadow-md ">
-    <div class="container mx-auto flex items-center">
-        <a href="{{ route('frontpage.index') }}" class="flex items-center ml-4">
-            @include('frontpage.partials.logo')  <!-- Ensure your logo is white or suitable color -->
-            <h1 class="text-3xl text-white font-bold ml-3">Data MV</h1>
-        </a>
-    </div>
-</header>
+            <div class="container mx-auto flex items-center">
+                <a href="{{ route('frontpage.index') }}" class="flex items-center ml-4">
+                    @include('frontpage.partials.logo')  
+                    <h1 class="text-3xl text-white font-bold ml-3">Data MV</h1>
+                </a>
+            </div>
+        </header>
 
 
 
