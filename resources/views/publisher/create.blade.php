@@ -1,17 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Publishing') }}
-        </h2>
-    </x-slot>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        @include('publisher.partials.sidebar')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('publisher.partials.add-dataset-form')
-                </div>
+        <!-- Main Content -->
+        <main class="flex-1 p-6 bg-white flex flex-col">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
+                Publish Your Dataset
+            </h2>
+
+            <div class="flex-grow overflow-auto">
+            @include('publisher.partials.add-dataset-form')
             </div>
-        </div>
+        </main>
     </div>
 </x-app-layout>

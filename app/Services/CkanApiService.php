@@ -276,10 +276,9 @@ class CkanApiService {
                 'message' => "Invalid state value. Allowed values are 'active', 'inactive', or 'deleted'."
             ];
         }
-        $dataset = [
-            'id' => $id,
-            'state' => $state
-        ];
+
+        $dataset = $this->getDataset($id)['result'];
+        $dataset['state'] = $state;
     
         return $this->postCkanRequest('package_update', $dataset);
     }

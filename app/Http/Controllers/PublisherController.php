@@ -101,6 +101,23 @@ class PublisherController extends Controller
         return redirect()->back();
 
     }
+
+    public function show($id)
+    {    
+        $local_dataset = Dataset::find($id);
+        if (!$local_dataset) {
+            return back()->withErrors('Dataset not found.');
+        }
+        $response = $this->ckanService->getDatasetWithResources($local_dataset->dataset_id);
+        if (isset($response['error']) && $response['error']) {
+            return response()->json(['error' => true, 'message' => $response['message']], 500);
+        }
+    
+        return view('publisher.show', [
+            'dataset' => $response['result'],
+            'local_dataset' => $local_dataset
+        ]);
+    }
     
 }
      

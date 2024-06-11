@@ -19,18 +19,19 @@
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+   
 
             <!-- Page Content -->
-            <main>
+            <main class="container mx-auto">
                 {{ $slot }}
             </main>
+
+            <!-- Footer -->
+            <footer class="bg-gray-800 text-white p-4">
+                <div class="container mx-auto text-center">
+                    <p>© {{ now()->year }} | This project is a prototype developed for the Master of Science, Design and Research in Open Government Data.</p>
+                </div>
+            </footer>
         </div>
     </body>
 </html>

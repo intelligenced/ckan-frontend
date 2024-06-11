@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/publisher', [PublisherController::class, 'index'])->name('publisher.index');
     Route::get('/publisher/create', [PublisherController::class, 'create'])->name('publisher.create');
     Route::delete('/publisher/{id}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
+    Route::get('/publisher/{id}', [PublisherController::class, 'show'])->name('publisher.show');
+
 
 
 });

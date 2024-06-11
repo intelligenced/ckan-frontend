@@ -1,15 +1,19 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Datasets') }}
-        </h2>
-    </x-slot>
+    <div class="flex h-screen"> 
+        <!-- Sidebar -->
+        @include('publisher.partials.sidebar')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+        <!-- Main Content -->
+        <main class="flex-1 p-6 bg-white flex flex-col" style="min-height: calc(100vh - 4rem);">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
+                Datasets
+                <span class="text-sm font-normal text-gray-600">
+                    Dataset Count: 
+                    {{ $datasets->count()}}
+                </span>
+            </h2>
 
-                <div class="overflow-x-auto mb-4">
+            <div class="flex-grow overflow-auto">
                 <table class="min-w-full bg-white shadow rounded-lg">
                     <thead class="bg-teal-50">
                         <tr>
@@ -49,7 +53,7 @@
                                         </div>
                                         <button type="submit" class="text-sm text-white bg-teal-500 hover:bg-teal-700 px-2 py-1 rounded">Update</button>
                                     </form>
-                                    <a href="{{ route('publisher.update', $dataset->id) }} " class="text-sm text-white bg-teal-500 hover:bg-teal-700 px-2 py-1 rounded">View</a>
+                                    <a href="{{ route('publisher.show', $dataset->id) }}" class="text-sm text-white bg-teal-500 hover:bg-teal-700 px-2 py-1 rounded">View</a>
                                     <form action="{{ route('publisher.destroy', $dataset->id ) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -61,14 +65,7 @@
                         @endforeach
                     </tbody>
                 </table>
-
-
-
-
-
-                </div>
-
             </div>
-        </div>
+        </main>
     </div>
 </x-app-layout>

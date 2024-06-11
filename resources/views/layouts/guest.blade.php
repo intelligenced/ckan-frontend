@@ -17,14 +17,17 @@
     <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
         <!-- Top Banner -->
-        <header class="bg-teal-800 p-4 shadow-md ">
-            <div class="container mx-auto flex items-center">
-                <a href="{{ route('frontpage.index') }}" class="flex items-center ml-4">
-                    @include('frontpage.partials.logo')  
-                    <h1 class="text-3xl text-white font-bold ml-3">Data MV</h1>
-                </a>
-            </div>
-        </header>
+        <header class="bg-teal-800 p-4 shadow-md">
+    <div class="container mx-auto flex items-center justify-between">
+        <a href="{{ route('frontpage.index') }}" class="flex items-center">
+            @include('frontpage.partials.logo')
+            <h1 class="text-3xl text-white font-bold ml-3">Data MV</h1>
+        </a>
+        <!-- Publisher Link -->
+        <a href="{{ route('publisher.index') }}" class="text-white text-lg font-medium mr-4 hover:text-gray-300">Publisher</a>
+    </div>
+</header>
+
 
 
 

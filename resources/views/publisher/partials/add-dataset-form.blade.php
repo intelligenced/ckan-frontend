@@ -1,12 +1,12 @@
 <section>
-    <header>
+    <!-- <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Add Dataset') }}
         </h2>
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Upload your dataset here") }}
         </p>
-    </header>
+    </header> -->
 
     <form method="post" action="{{ route('publisher.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
