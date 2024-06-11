@@ -4,6 +4,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
 use Exception;
+use Illuminate\Http\UploadedFile;
 
 class CkanApiService {
     protected $ckanApiPath;
@@ -141,6 +142,51 @@ class CkanApiService {
         }
     }
 
+
+    public function uploadResourceFromUploadedFile(UploadedFile $file, $packageId) {
+        if (!$file->isValid()) {
+            return [
+                'error' => true,
+                'message' => 'Invalid file upload.'
+            ];
+        }
+    
+        try {
+            $extension = $file->getClientOriginalExtension();
+            $mimeType = $file->getMimeType();
+            $fileName = $file->getClientOriginalName();
+    
+            $response = Http::withHeaders([
+                'Authorization' => $this->ckanApiToken,
+                'Accept' => 'application/json'
+            ])->attach(
+                'upload', file_get_contents($file->path()), $fileName
+            )->post($this->ckanApiPath . 'resource_create', [
+                'package_id' => $packageId,
+                'name' => $fileName,
+                'format' => strtoupper($extension),
+                'mimetype' => $mimeType
+            ]);
+    
+            if (isset($response->json()['success']) && $response->json()['success']) {
+                return ['success' => true, 'message' => 'File uploaded successfully.'];
+            } else {
+                return ['error' => true, 'message' => 'Failed to upload file.'];
+            }
+    
+        } catch (RequestException $e) {
+            return [
+                'error' => true,
+                'message' => 'Network error or request timed out: ' . $e->getMessage()
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
     public function deleteDataset($datasetId) {
         try {
             $response = Http::withHeaders([
@@ -194,7 +240,7 @@ class CkanApiService {
         return $this->postCkanRequest('group_create', $body);
     }
     
-    public function createDataset($data, $filePath) {
+    public function createDataset($data) {
         $sanitizedTitle = strtolower($data['title']);
         $sanitizedTitle = preg_replace('/[^a-z0-9_\-]/', '_', $sanitizedTitle); 
 
@@ -222,10 +268,23 @@ class CkanApiService {
     
         return $this->postCkanRequest('package_create', $dataset);
     }
-    
-    
-    
 
+    public function updateDatasetState($id, $state) {
+        if (!in_array($state, ['active', 'inactive', 'deleted'])) {
+            return [
+                'error' => true,
+                'message' => "Invalid state value. Allowed values are 'active', 'inactive', or 'deleted'."
+            ];
+        }
+        $dataset = [
+            'id' => $id,
+            'state' => $state
+        ];
+    
+        return $this->postCkanRequest('package_update', $dataset);
+    }
+    
+    
     
 
     public function getDataset($id) {
