@@ -71,7 +71,7 @@ class SeedController extends Controller
                 ];
     
                 echo "Creating dataset: " . $row['title'] . "...\n<br>";
-                $result = $ckanService->createDataset($datasetData, $datasetFilePath);
+                $result = $ckanService->createDataset($datasetData);
     
                 if (isset($result['result']) && isset($result['result']['id'])) {
                     $packageId = $result['result']['id'];
