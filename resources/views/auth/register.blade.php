@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <div class="container p-6 h-screen">
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -16,26 +17,33 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Organisation -->
+        <div class="mt-4">
+            <x-input-label for="organisation" :value="__('Organisation')" />
+            <select id="organisation" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="organisation_id" required>
+                @foreach ($organisations as $id => $display_name)
+                    <option value="{{ $id }}">{{ $display_name }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('organisation')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
-
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
@@ -49,4 +57,5 @@
             </x-primary-button>
         </div>
     </form>
+</div>
 </x-guest-layout>
