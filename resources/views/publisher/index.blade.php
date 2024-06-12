@@ -1,10 +1,10 @@
 <x-app-layout>
-    <div class="flex h-screen"> 
+    <div class="flex h-[86vh]"> 
         <!-- Sidebar -->
         @include('publisher.partials.sidebar')
 
         <!-- Main Content -->
-        <main class="flex-1 p-6 bg-white flex flex-col" style="min-height: calc(100vh - 4rem);">
+        <main class="flex-1 p-6 bg-white flex flex-col" >
             <h2 class="text-xl font-semibold text-gray-800 mb-2 ml-2 flex justify-between items-center">
                 Datasets
                 <span class="text-sm font-normal text-gray-600">
