@@ -67,16 +67,23 @@
                     </table>
                 </div>
 
+
+                @if(isset($local_dataset) && $local_dataset->is_api == false)
+                @else
                 <div class="mb-4">
                     <h2 class="text-md font-semibold text-gray-800 mb-1 ml-2">API</h2>
                     <div class="bg-gray-700 text-white  p-3 font-mono text-xs rounded">
                         {{ $resource['api_url'] }}
                     </div>
                 </div>
+                @endif
 
 
             @if(!empty($resource['embed_url']))
-                <iframe title="Data viewer" width="100%" height="500" src="{{ $resource['embed_url'] }}" frameborder="0"></iframe>
+                @if(isset($local_dataset) && $local_dataset->is_embedable == false)
+                @else
+                    <iframe title="Data viewer" width="100%" height="500" src="{{ $resource['embed_url'] }}" frameborder="0"></iframe>
+                @endif
             @endif
 
 

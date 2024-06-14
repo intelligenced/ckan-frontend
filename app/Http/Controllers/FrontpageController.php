@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CkanApiService;
+use App\Models\Dataset;
 
 class FrontpageController extends Controller
 {
@@ -87,6 +88,7 @@ class FrontpageController extends Controller
 
     public function data($id)
     {
+        $local_dataset = Dataset::where('dataset_id', $id)->first();
         $groups = $this->getGroups();
         $tags = $this->getTags();
         $organisations = $this->getOrganisations();
@@ -103,7 +105,8 @@ class FrontpageController extends Controller
             'groups' => $groups,
             'tags' => $tags,
             'organisations' => $organisations,
-            'dataset' => $response['result']
+            'dataset' => $response['result'],
+            'local_dataset' => $local_dataset
         ]);
     }
     
