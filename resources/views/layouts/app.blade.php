@@ -29,7 +29,7 @@
             <!-- Footer -->
             <footer class="bg-gray-800 text-white p-4">
                 <div class="container mx-auto text-center">
-                    <p>© {{ now()->year }} | This project is a prototype developed for the Master of Science, Design and Research in Open Government Data.</p>
+                <p>© {{ now()->year }}: This project is a prototype developed by Thiban Latheef for the Master of Information Technology (Big Data & Data Science) thesis.</p>
                 </div>
             </footer>
         </div>
